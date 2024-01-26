@@ -1,0 +1,10 @@
+.weather-header {
+  text-align: center;
+  color: white;
+  height: 100px;
+  padding-top: 10px;
+  margin-top: 0px;
+}
+h1 {
+  font-size: 40px;
+}
