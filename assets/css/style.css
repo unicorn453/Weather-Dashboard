@@ -15,3 +15,11 @@ h1 {
   font-size: 40px;
   font-weight: 600;
 }
+.search {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.weather-search {
+  height: 50px;
+}

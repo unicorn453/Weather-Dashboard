@@ -31,37 +31,33 @@
 
     <div class="container-fluid">
       <div class="row">
-        <aside class="col-lg-3">
+        <aside class="col-lg-3 search">
           <!-- Content for the left column -->
-          <h2 id="form-heading" class="mt-1 h3 form-label">
+          <h2 id="form-heading" class="mt-1 h2 form-label fw-bold">
             Search for a City:
           </h2>
-          <form id="search-form" class="form">
-            <div class="form-inline form-group">
-              <div class="input-group">
-                <input
-                  class="form-input weather-search"
-                  type="text"
-                  id="search-input"
-                  placeholder="London"
-                  aria-labelledby="form-heading"
-                  aria-controls="today forecast"
-                />
-                <div class="input-group-append">
-                  <button
-                    type="submit"
-                    class="btn search-button"
-                    id="search-button"
-                    aria-label="submit search"
-                  >
-                    Search
-                  </button>
-                </div>
-              </div>
-              <hr class="hr weather-hr" />
-            </div>
-          </form>
-          <div class="list-group" id="history"></div>
+
+          <div class="input-search">
+            <input
+              class="form-input weather-search w-100 mb-2"
+              type="text"
+              id="search-input"
+              placeholder="London"
+              aria-labelledby="form-heading"
+              aria-controls="today forecast"
+            />
+          </div>
+          <div class="input-group-append search-button d-grid gap-2">
+            <button
+              type="submit"
+              class="btn search-button btn-primary"
+              id="search-button"
+              aria-label="submit search"
+            >
+              Search
+            </button>
+          </div>
+          <hr class="hr weather-hr" />
         </aside>
 
         <div class="col">
