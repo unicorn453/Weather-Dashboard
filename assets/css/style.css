@@ -30,3 +30,9 @@ h1 {
   border-radius: 5px;
   height: 40px;
 }
+.fs-5-card {
+  background-color: rgb(50, 59, 75) !important;
+  color: white !important;
+  height: 15rem;
+  padding: 5px;
+}
