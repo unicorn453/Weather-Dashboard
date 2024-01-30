@@ -23,3 +23,10 @@ h1 {
 .weather-search {
   height: 50px;
 }
+.last-search {
+  border: none !important;
+  margin-bottom: 15px;
+  background-color: rgb(184, 184, 184);
+  border-radius: 5px;
+  height: 40px;
+}
