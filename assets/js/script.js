@@ -76,7 +76,16 @@ function updateUI(weatherData) {
     var tempSelector = ".temp-" + (i / 8 + 1);
     var windSelector = ".wind-" + (i / 8 + 1);
     var humiditySelector = ".humidity-" + (i / 8 + 1);
-
+    var iconsEl = ".icon-" + (i / 8 + 1);
+    var iconNum = weatherData.list[i].weather[0].icon;
+    var iconNum1 = weatherData.list[0].weather[0].icon;
+    var iconNum6 = weatherData.list[39].weather[0].icon;
+    var icon = "http://openweathermap.org/img/w/" + iconNum + ".png";
+    var icon1 = "http://openweathermap.org/img/w/" + iconNum1 + ".png";
+    var icon6 = "http://openweathermap.org/img/w/" + iconNum6 + ".png";
+    $(".icon-1").attr("src", icon1);
+    $(".icon-6").attr("src", icon6);
+    $(iconsEl).attr("src", icon);
     $(".city").text(weatherData.city.name + " " + date1.toLocaleDateString());
     $(".humidity-6").text(
       "Humidity: " + weatherData.list[39].main.humidity + "%"
