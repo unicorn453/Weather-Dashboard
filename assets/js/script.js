@@ -14,6 +14,11 @@ $("#search-button").on("click", function () {
   cities.push(city);
   localStorage.setItem("cities", JSON.stringify(cities));
 
+  // Fetch weather data and update UI
+  fetchWeather(city);
+});
+
+function fetchWeather(city) {
   var geocodeURL =
     "https://api.openweathermap.org/geo/1.0/direct?q=" +
     city +
@@ -24,11 +29,9 @@ $("#search-button").on("click", function () {
       return response.json();
     })
     .then(function (data) {
-      // Assuming the first result is the correct one
       var lat = data[0].lat;
       var lon = data[0].lon;
 
-      // After fetching geocode data, call createHistory with the city
       createHistory(city);
 
       var queryURL =
@@ -46,43 +49,8 @@ $("#search-button").on("click", function () {
           var weatherData = result;
           console.log(weatherData);
 
-          for (var i = 0; i < weatherData.list.length; i += 8) {
-            var date = new Date(weatherData.list[i].dt * 1000);
-            var date1 = new Date(weatherData.list[1].dt * 1000);
-            var date6 = new Date(weatherData.list[39].dt * 1000);
-            var cardTitleSelector = ".card-title-" + (i / 8 + 1);
-            var tempSelector = ".temp-" + (i / 8 + 1);
-            var windSelector = ".wind-" + (i / 8 + 1);
-            var humiditySelector = ".humidity-" + (i / 8 + 1);
-
-            $(".city").text(
-              weatherData.city.name + " " + date1.toLocaleDateString()
-            );
-            $(".humidity-6").text(
-              "Humidity: " + weatherData.list[39].main.humidity + "%"
-            );
-            $(".wind-6").text(
-              "Wind: " + weatherData.list[39].wind.speed + " KPH"
-            );
-            $(".temp-6").text("Temperature: " + tempCelsius6 + "°C");
-            // Convert temperature from Kelvin to Celsius
-            var tempCelsius = (weatherData.list[i].main.temp - 273.15).toFixed(
-              2
-            );
-            $(".card-title-6").text(date6.toLocaleDateString());
-            var tempCelsius6 = (
-              weatherData.list[39].main.temp - 273.15
-            ).toFixed(2);
-            // Update the UI elements with weather data
-            $(cardTitleSelector).text(date.toLocaleDateString());
-            $(tempSelector).text("Temperature: " + tempCelsius + "°C");
-            $(windSelector).text(
-              "Wind: " + weatherData.list[i].wind.speed + " KPH"
-            );
-            $(humiditySelector).text(
-              "Humidity: " + weatherData.list[i].main.humidity + "%"
-            );
-          }
+          // Update the UI with weather data
+          updateUI(weatherData);
         })
         .catch(function (error) {
           console.log("Error fetching weather data:", error);
@@ -91,7 +59,37 @@ $("#search-button").on("click", function () {
     .catch(function (error) {
       console.log("Error fetching geocoding data:", error);
     });
-});
+}
+
+function updateUI(weatherData) {
+  for (var i = 0; i < weatherData.list.length; i += 8) {
+    var date = new Date(weatherData.list[i].dt * 1000);
+    var date1 = new Date(weatherData.list[1].dt * 1000);
+    var date6 = new Date(weatherData.list[39].dt * 1000);
+    var cardTitleSelector = ".card-title-" + (i / 8 + 1);
+    var tempSelector = ".temp-" + (i / 8 + 1);
+    var windSelector = ".wind-" + (i / 8 + 1);
+    var humiditySelector = ".humidity-" + (i / 8 + 1);
+
+    $(".city").text(weatherData.city.name + " " + date1.toLocaleDateString());
+    $(".humidity-6").text(
+      "Humidity: " + weatherData.list[39].main.humidity + "%"
+    );
+    $(".wind-6").text("Wind: " + weatherData.list[39].wind.speed + " KPH");
+    $(".temp-6").text("Temperature: " + tempCelsius6 + "°C");
+    // Convert temperature from Kelvin to Celsius
+    var tempCelsius = (weatherData.list[i].main.temp - 273.15).toFixed(2);
+    $(".card-title-6").text(date6.toLocaleDateString());
+    var tempCelsius6 = (weatherData.list[39].main.temp - 273.15).toFixed(2);
+    // Update the UI elements with weather data
+    $(cardTitleSelector).text(date.toLocaleDateString());
+    $(tempSelector).text("Temperature: " + tempCelsius + "°C");
+    $(windSelector).text("Wind: " + weatherData.list[i].wind.speed + " KPH");
+    $(humiditySelector).text(
+      "Humidity: " + weatherData.list[i].main.humidity + "%"
+    );
+  }
+}
 
 function createHistory(city) {
   var historyDiv = $(".history");
@@ -105,11 +103,12 @@ function createHistory(city) {
     var button = $("<button></button>").text(cities[i]);
     button.addClass("last-search");
     historyDiv.append(button);
+
     // Add click event listener to execute weather function
     button.on("click", function () {
       var city = $(this).text();
       // Call function to search weather for the clicked city
-      searchWeather(city);
+      fetchWeather(city);
     });
   }
 
