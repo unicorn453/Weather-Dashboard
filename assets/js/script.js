@@ -1,4 +1,10 @@
+// Hide the HTML element
+$(".today-weather ").hide();
+$(".forecast-week ").hide();
+
 $("#search-button").on("click", function () {
+  $(".today-weather ").show();
+  $(".forecast-week ").show();
   var city = $("#search-input").val();
   $("#search-input").val("");
 
