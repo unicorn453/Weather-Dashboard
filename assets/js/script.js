@@ -1,5 +1,19 @@
 $("#search-button").on("click", function () {
   var city = $("#search-input").val();
+  $("#search-input").val("");
+
+  // Save the city to local storage
+  var cities = JSON.parse(localStorage.getItem("cities")) || [];
+
+  // Trim the cities array to a maximum length of 5
+  if (cities.length >= 5) {
+    cities = cities.slice(-4); // Keep the last 4 elements
+  }
+
+  // Push the new city to the end of the array
+  cities.push(city);
+  localStorage.setItem("cities", JSON.stringify(cities));
+
   var geocodeURL =
     "https://api.openweathermap.org/geo/1.0/direct?q=" +
     city +
@@ -13,6 +27,9 @@ $("#search-button").on("click", function () {
       // Assuming the first result is the correct one
       var lat = data[0].lat;
       var lon = data[0].lon;
+
+      // After fetching geocode data, call createHistory with the city
+      createHistory(city);
 
       var queryURL =
         "https://api.openweathermap.org/data/2.5/forecast?lat=" +
@@ -29,7 +46,6 @@ $("#search-button").on("click", function () {
           var weatherData = result;
           console.log(weatherData);
 
-          // Iterate over the list of weather data for 6 days
           for (var i = 0; i < weatherData.list.length; i += 8) {
             var date = new Date(weatherData.list[i].dt * 1000);
             var date1 = new Date(weatherData.list[1].dt * 1000);
@@ -76,3 +92,27 @@ $("#search-button").on("click", function () {
       console.log("Error fetching geocoding data:", error);
     });
 });
+
+function createHistory(city) {
+  var historyDiv = $(".history");
+  var cities = JSON.parse(localStorage.getItem("cities")) || [];
+
+  // Clear the content of the historyDiv
+  historyDiv.empty();
+
+  // Loop through the cities array and create buttons
+  for (let i = Math.min(cities.length, 5) - 1; i >= 0; i--) {
+    var button = $("<button></button>").text(cities[i]);
+    button.addClass("last-search");
+    historyDiv.append(button);
+    // Add click event listener to execute weather function
+    button.on("click", function () {
+      var city = $(this).text();
+      // Call function to search weather for the clicked city
+      searchWeather(city);
+    });
+  }
+
+  // Update the cities array in local storage
+  localStorage.setItem("cities", JSON.stringify(cities));
+}
