@@ -32,11 +32,16 @@ $("#search-button").on("click", function () {
           // Iterate over the list of weather data for 6 days
           for (var i = 0; i < weatherData.list.length; i += 8) {
             var date = new Date(weatherData.list[i].dt * 1000);
+            var date1 = new Date(weatherData.list[1].dt * 1000);
             var date6 = new Date(weatherData.list[39].dt * 1000);
             var cardTitleSelector = ".card-title-" + (i / 8 + 1);
             var tempSelector = ".temp-" + (i / 8 + 1);
             var windSelector = ".wind-" + (i / 8 + 1);
             var humiditySelector = ".humidity-" + (i / 8 + 1);
+
+            $(".city").text(
+              weatherData.city.name + " " + date1.toLocaleDateString()
+            );
             $(".humidity-6").text(
               "Humidity: " + weatherData.list[39].main.humidity + "%"
             );
