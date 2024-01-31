@@ -10,6 +10,7 @@ $("#search-button").on("click", function () {
       return response.json();
     })
     .then(function (data) {
+      // Assuming the first result is the correct one
       var lat = data[0].lat;
       var lon = data[0].lon;
 
@@ -27,7 +28,6 @@ $("#search-button").on("click", function () {
         .then(function (result) {
           var weatherData = result;
           console.log(weatherData);
-
           for (var i = 0; i < 5; i++) {
             var date = new Date(weatherData.list[i].dt * 1000);
             var cardTitleSelector = ".card-title-" + (i + 1);
